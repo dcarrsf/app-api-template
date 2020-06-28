@@ -1,0 +1,26 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src", "./test"]
+      }
+    ]
+  ],
+  "env": {
+    "es": {
+      "sourceMaps": "inline",
+      "plugins": ["source-map-support"]
+    }
+  }
+}

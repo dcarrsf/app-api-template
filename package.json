@@ -1,0 +1,79 @@
+{
+  "name": "app-service-template",
+  "version": "1.0.0",
+  "description": "node api server built with koa",
+  "keywords": [
+    "service",
+    "template",
+    "koa"
+  ],
+  "scripts": {
+    "clean": "rimraf build",
+    "lint": "eslint --fix --ext .js,.json ./src ./test",
+    "pretty": "prettier --tab-width=4 --single-quote --write \"{src,test}/**/*.js\"",
+    "build": "npm run clean && npm run lint && npm run build:babel",
+    "build:babel": "BABEL_ENV=es babel --out-dir build src",
+    "dev": "node-dev --inspect=0.0.0.0:9999 -r @babel/register src/boot.js",
+    "run": "node build/boot.js",
+    "start": "npm run build && npm run run",
+    "test": "BABEL_ENV=test mocha"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "7.7.1",
+    "bluebird": "3.7.2",
+    "config": "3.3.1",
+    "http-graceful-shutdown": "2.3.2",
+    "koa": "2.12.0",
+    "koa-bodyparser": "4.3.0",
+    "koa-helmet": "5.2.0",
+    "koa-router": "9.0.1",
+    "lodash": "4.17.15",
+    "moment": "2.26.0",
+    "mongoose": "5.9.18",
+    "redis": "3.0.2",
+    "superagent": "5.2.2",
+    "winston": "3.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.10.1",
+    "@babel/core": "7.10.2",
+    "@babel/preset-env": "7.10.2",
+    "@babel/register": "7.10.1",
+    "babel-plugin-module-resolver": "4.0.0",
+    "babel-plugin-source-map-support": "^2.1.2",
+    "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
+    "eslint": "7.2.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-import-resolver-babel-module": "5.1.2",
+    "eslint-plugin-chai-expect": "2.1.0",
+    "eslint-plugin-import": "2.21.1",
+    "eslint-plugin-json": "2.1.1",
+    "eslint-plugin-prettier": "3.1.3",
+    "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
+    "husky": "4.2.5",
+    "lint-staged": "10.2.9",
+    "mocha": "7.2.0",
+    "nock": "12.0.3",
+    "node-dev": "4.0.0",
+    "prettier": "2.0.5",
+    "rimraf": "3.0.2",
+    "sinon": "9.0.2",
+    "supertest": "4.0.2"
+  },
+  "repository": {
+    "private": true
+  },
+  "license": "UNLICENSED"
+}

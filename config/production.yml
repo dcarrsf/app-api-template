@@ -1,0 +1,17 @@
+---
+port: 8585
+prefix: /api/v1
+logger:
+  level: error
+  name: api
+connectString: mongodb://localhost:27017/api
+mongo:
+  reconnectTries: 3
+  poolSize: 5
+redis:
+  host: redis
+  port: 6379
+elasticsearch:
+  log: info
+  apiVersion: 6.3
+shutdownTimeout: 1000

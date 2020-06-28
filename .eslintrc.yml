@@ -1,0 +1,46 @@
+---
+extends:
+  - eslint:recommended
+  - plugin:import/errors
+  - prettier
+plugins:
+  - prettier
+  - json
+  - chai-expect
+  - sort-imports-es6-autofix
+settings:
+  import/resolver:
+    babel-module: {}
+env:
+  node: true
+  es6: true
+  mocha: true
+parserOptions:
+  ecmaVersion: 9
+  sourceType: module
+rules:
+  curly: error
+  prettier/prettier:
+    - error
+    - printWidth: 120
+      singleQuote: true
+      tabWidth: 4
+  no-console: off
+  no-shadow: error
+  no-catch-shadow: error
+  no-undefined: error
+  no-use-before-define: error
+  no-duplicate-imports: error
+  no-var: error
+  prefer-const: error
+  prefer-rest-params: error
+  prefer-spread: error
+  sort-imports-es6-autofix/sort-imports-es6:
+    - 2
+    - ignoreCase: true
+      ignoreMemberSort: false
+      memberSyntaxSortOrder:
+        - none
+        - all
+        - multiple
+        - single

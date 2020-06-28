@@ -1,0 +1,17 @@
+---
+port: 8585
+prefix: /api/v1
+logger:
+  level: error
+  name: api
+connectString: mongodb://admin:password@127.0.0.1:27017/api
+mongo:
+  poolSize: 5
+  useNewUrlParser: true
+  useUnifiedTopology: true
+redis:
+  host: redis
+  port: 6379
+elasticsearch:
+  node: http://localhost:9200
+shutdownTimeout: 1000
