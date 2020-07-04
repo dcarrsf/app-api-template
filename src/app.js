@@ -19,25 +19,27 @@ app.use(healthCheck(config.prefix + '/health'));
 app.use(ping(config.prefix + '/ping'));
 app.use(routes);
 
-const servicesLifecycle = [elasticsearch, mongo, redis];
-
 async function shutdown(services) {
     return Promise.all(_.map(services, (s) => s.close()));
 }
 
+async function startup(services) {
+    const server = app.listen(config.port);
+    await Promise.all(_.map(services, (s) => s(app)));
+    gracefulShutdown(server, {
+        timeout: config.shutdownTimeout,
+        onShutdown: async () => await shutdown(services),
+        finally: () => log.info('Server gracefully shut down...'),
+    });
+}
+
 export default {
     start: async () => {
-        const server = app.listen(config.port);
-        await Promise.all(_.map(servicesLifecycle, (s) => s(app)));
-        log.info('Services initialized...');
-        gracefulShutdown(server, {
-            timeout: config.shutdownTimeout,
-            onShutdown: async () => await shutdown(servicesLifecycle),
-            finally: () => log.info('Server gracefully shutted down...'),
-        });
+        const servicesLifecycle = [elasticsearch, mongo, redis];
+        await startup(servicesLifecycle);
         return {
             server,
-            shutdown: () => shutdown(servicesLifecycle),
+            shutdown: () => shutdown(servicesLifecycle)
         };
     },
 };
