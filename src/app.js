@@ -1,5 +1,5 @@
-import { errorHandler, healthCheck, ping, requestLogger } from './middleware';
 import { elasticsearch, mongo, redis } from './services';
+import { errorHandler, healthCheck, ping, requestLogger } from './middleware';
 import _ from 'lodash';
 import bodyParser from 'koa-bodyparser';
 import config from 'config';
@@ -31,15 +31,16 @@ async function startup(services) {
         onShutdown: async () => await shutdown(services),
         finally: () => log.info('Server gracefully shut down...'),
     });
+    return server;
 }
 
 export default {
     start: async () => {
         const servicesLifecycle = [elasticsearch, mongo, redis];
-        await startup(servicesLifecycle);
+        const server = await startup(servicesLifecycle);
         return {
             server,
-            shutdown: () => shutdown(servicesLifecycle)
+            shutdown: () => shutdown(servicesLifecycle),
         };
     },
 };
